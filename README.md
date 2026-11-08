@@ -66,4 +66,5 @@ validasi logiin jika berhasil atau tidak nya maka akan muncul note di atas <img 
 
 <img width="1916" height="982" alt="image" src="https://github.com/user-attachments/assets/eada15e8-21cf-4d05-8772-85d05aa52395" />
 
+<img width="1921" height="979" alt="image" src="https://github.com/user-attachments/assets/2ab46718-42c2-4ad8-a6e4-e0b4491c91b8" />
 
