@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Toko Buku Nara - Tracking Pengiriman</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-amber-50 min-h-screen">
+
+  <!-- Navigation Bar -->
+  <nav class="bg-amber-900 text-white px-6 py-4 flex justify-between items-center shadow-md">
+    <div class="flex items-center space-x-3">
+      <a href="dashboard.html" class="text-amber-200 hover:text-white text-sm">&larr; Kembali ke Dashboard</a>
+      <span class="text-amber-500">|</span>
+      <h1 class="text-xl font-serif font-bold">Tracking Pengiriman</h1>
+    </div>
+    <a href="index.html" class="bg-amber-800 hover:bg-amber-700 text-xs text-amber-100 font-semibold px-4 py-2 rounded-lg transition">
+      Logout
+    </a>
+  </nav>
+
+  <!-- Container Utama -->
+  <main class="max-w-4xl mx-auto p-6 space-y-6">
+    
+    <!-- Card Pencarian Nomor Delivery Order -->
+    <div class="bg-white p-6 rounded-2xl shadow-sm border border-amber-100">
+      <h2 class="text-xl font-bold text-amber-950 mb-2">🔍 Lacak Pengiriman Pesanan</h2>
+      <p class="text-xs text-gray-500 mb-4">Masukkan Nomor Delivery Order (Contoh: <span class="font-mono font-semibold text-amber-900">DO-001</span> atau <span class="font-mono font-semibold text-amber-900">DO-002</span>)</p>
+      
+      <div class="flex flex-col md:flex-row gap-3">
+        <input type="text" id="inputNoDO" placeholder="Masukkan Nomor DO (misal: DO-001)" class="flex-1 px-4 py-3 border rounded-xl text-sm outline-none focus:ring-2 focus:ring-amber-800 uppercase font-mono">
+        <button onclick="cariTracking()" class="bg-amber-900 hover:bg-amber-800 text-white font-semibold px-6 py-3 rounded-xl transition shadow-md">
+          Cari
+        </button>
+      </div>
+    </div>
+
+    <!-- Hasil Pencarian Tracking (Hidden sebelum dicari) -->
+    <div id="hasilTracking" class="hidden space-y-6">
+      
+      <!-- Ringkasan Status -->
+      <div class="bg-white p-6 rounded-2xl shadow-sm border border-amber-100 space-y-4">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b pb-4 gap-2">
+          <div>
+            <p class="text-xs text-gray-500 uppercase tracking-wider">Nomor Delivery Order</p>
+            <p id="resNoDO" class="text-lg font-mono font-bold text-amber-900">-</p>
+          </div>
+          <div>
+            <span id="resStatusBadge" class="px-3 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-900">-</span>
+          </div>
+        </div>
+
+        <!-- Progress Bar Status -->
+        <div class="space-y-2">
+          <div class="flex justify-between text-xs text-gray-600 font-medium">
+            <span>Progress Pengiriman</span>
+            <span id="resProgressText">0%</span>
+          </div>
+          <div class="w-full bg-gray-200 h-3 rounded-full overflow-hidden">
+            <div id="resProgressBar" class="bg-amber-900 h-full transition-all duration-500" style="width: 0%"></div>
+          </div>
+        </div>
+
+        <!-- Detail Informasi -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2 text-sm">
+          <div class="bg-amber-50/50 p-4 rounded-xl border border-amber-100 space-y-2">
+            <p class="text-xs font-semibold text-amber-900 uppercase">Informasi Pemesan</p>
+            <p><span class="text-gray-500">Nama Pemesan:</span> <span id="resNama" class="font-semibold text-gray-800">-</span></p>
+            <p><span class="text-gray-500">Total Pembayaran:</span> <span id="resTotal" class="font-semibold text-amber-900">-</span></p>
+          </div>
+          <div class="bg-amber-50/50 p-4 rounded-xl border border-amber-100 space-y-2">
+            <p class="text-xs font-semibold text-amber-900 uppercase">Detail Ekspedisi</p>
+            <p><span class="text-gray-500">Ekspedisi:</span> <span id="resEkspedisi" class="font-semibold text-gray-800">-</span></p>
+            <p><span class="text-gray-500">Tanggal Kirim:</span> <span id="resTgl" class="font-semibold text-gray-800">-</span></p>
+            <p><span class="text-gray-500">Jenis Paket:</span> <span id="resPaket" class="font-semibold text-gray-800">-</span></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Riwayat Perjalanan (Timeline) -->
+      <div class="bg-white p-6 rounded-2xl shadow-sm border border-amber-100">
+        <h3 class="text-lg font-bold text-amber-950 mb-4">📦 Riwayat Perjalanan Paket</h3>
+        <div id="resTimeline" class="space-y-4 border-l-2 border-amber-200 pl-4 ml-2">
+          <!-- Diisi via JS -->
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Alert Modal Error -->
+    <div id="modalAlert" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50 p-4">
+      <div class="bg-white rounded-xl p-6 max-w-sm w-full text-center shadow-2xl">
+        <div id="modalIcon" class="text-4xl mb-3">⚠️</div>
+        <p id="alertMessage" class="text-gray-800 font-medium mb-6"></p>
+        <button onclick="closeModal('modalAlert')" class="bg-amber-900 text-white px-6 py-2 rounded-lg hover:bg-amber-800 font-semibold w-full">
+          Tutup
+        </button>
+      </div>
+    </div>
+
+  </main>
+
+  <script src="js/data.js"></script>
+  <script src="js/script.js"></script>
+</body>
+</html>
