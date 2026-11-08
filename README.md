@@ -53,5 +53,17 @@ Data akun ada di `js/data.js` dan bisa diubah sesuai kebutuhan.
 - HTML5
 - CSS3
 - JavaScript (Vanilla)
+
+  
 Screenshoot dan penjelasanya
+
+
 validasi logiin jika berhasil atau tidak nya maka akan muncul note di atas <img width="659" height="739" alt="image" src="https://github.com/user-attachments/assets/6f0e010f-4582-4ab5-8aae-04a41a28a2ef" />
+
+<img width="1921" height="1031" alt="image" src="https://github.com/user-attachments/assets/6c4ac33e-19be-4cff-aeab-bdab7abfd25c" />
+
+<img width="1920" height="977" alt="image" src="https://github.com/user-attachments/assets/b98511f7-7154-4bba-ae7b-0fe8cd9cd2e7" />
+
+<img width="1916" height="982" alt="image" src="https://github.com/user-attachments/assets/eada15e8-21cf-4d05-8772-85d05aa52395" />
+
+
