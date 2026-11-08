@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Toko Buku Nara - Informasi Stok/Katalog</title>
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: #fffbe8;
+      min-height: 100vh;
+    }
+
+    .navbar {
+      background: #78350f;
+      color: #fff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 32px;
+    }
+    .navbar h1 { font-family: Georgia, serif; font-size: 24px; }
+    .navbar a {
+      color: #78350f;
+      background: #fff;
+      text-decoration: none;
+      padding: 8px 18px;
+      border-radius: 6px;
+      font-weight: 700;
+      font-size: 14px;
+    }
+    .navbar a:hover { background: #fde68a; }
+
+    .container { max-width: 1000px; margin: 0 auto; padding: 32px 20px; }
+
+    h2 { font-family: Georgia, serif; color: #78350f; margin-bottom: 6px; }
+    .desc { color: #b45309; font-size: 15px; margin-bottom: 24px; }
+
+    .box {
+      background: #fff;
+      border-radius: 14px;
+      padding: 24px;
+      box-shadow: 0 6px 20px rgba(120, 53, 15, 0.1);
+      margin-bottom: 28px;
+    }
+
+    /* ===== FORM TAMBAH STOK ===== */
+    .box h3 { color: #78350f; margin-bottom: 16px; }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+    label { display: block; font-weight: 600; font-size: 13px; margin-bottom: 6px; color: #1f2937; }
+    input {
+      width: 100%;
+      padding: 11px 12px;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+    input:focus {
+      outline: none;
+      border-color: #b45309;
+      box-shadow: 0 0 0 3px rgba(180, 83, 9, 0.15);
+    }
+    .btn-tambah {
+      margin-top: 18px;
+      padding: 12px 28px;
+      background: #78350f;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .btn-tambah:hover { background: #5c2a0c; }
+
+    /* ===== TABEL ===== */
+    .table-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    th, td { padding: 12px 14px; text-align: left; border-bottom: 1px solid #f3e8d0; }
+    th { background: #78350f; color: #fff; white-space: nowrap; }
+    tbody tr:hover { background: #fffbe8; }
+    td.angka { text-align: right; }
+    th.angka { text-align: right; }
+
+    .stok-rendah { color: #b91c1c; font-weight: 700; }
+
+    @media (max-width: 700px) {
+      .form-grid { grid-template-columns: 1fr; }
+      .navbar { padding: 14px 16px; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="navbar">
+    <h1>Toko Buku Nara</h1>
+    <a href="dashboard.html">&larr; Kembali ke Dashboard</a>
+  </div>
+
+  <div class="container">
+    <h2>Informasi Stok/Katalog</h2>
+    <p class="desc">Daftar buku yang tersedia di Toko Buku Nara.</p>
+
+    <!-- ===== FORM TAMBAH BARIS STOK BARU ===== -->
+    <div class="box">
+      <h3>Tambah Stok Baru</h3>
+      <form id="formTambah">
+        <div class="form-grid">
+          <div>
+            <label for="kode">Kode Buku</label>
+            <input type="text" id="kode" placeholder="contoh: BK009" required>
+          </div>
+          <div>
+            <label for="judul">Judul Buku</label>
+            <input type="text" id="judul" placeholder="Judul buku" required>
+          </div>
+          <div>
+            <label for="penulis">Penulis</label>
+            <input type="text" id="penulis" placeholder="Nama penulis" required>
+          </div>
+          <div>
+            <label for="kategori">Kategori</label>
+            <input type="text" id="kategori" placeholder="contoh: Novel" required>
+          </div>
+          <div>
+            <label for="harga">Harga (Rp)</label>
+            <input type="number" id="harga" placeholder="contoh: 85000" min="0" required>
+          </div>
+          <div>
+            <label for="stok">Jumlah Stok</label>
+            <input type="number" id="stok" placeholder="contoh: 10" min="0" required>
+          </div>
+        </div>
+        <button type="submit" class="btn-tambah">+ Tambah ke Tabel</button>
+      </form>
+    </div>
+
+    <!-- ===== TABEL KATALOG ===== -->
+    <div class="box">
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>No</th>
+              <th>Kode</th>
+              <th>Judul Buku</th>
+              <th>Penulis</th>
+              <th>Kategori</th>
+              <th class="angka">Harga</th>
+              <th class="angka">Stok</th>
+            </tr>
+          </thead>
+          <tbody id="tabelBuku"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- data.js harus berada di folder yang sama dengan stok.html -->
+  <script src="data.js"></script>
+  <script>
+    var tbody = document.getElementById("tabelBuku");
+
+    // ===== FUNGSI MEMBUAT SATU BARIS (DOM) =====
+    function buatBaris(buku) {
+      var tr = document.createElement("tr");
+      var nomor = tbody.rows.length + 1;
+
+      var isi = [
+        nomor,
+        buku.kode,
+        buku.judul,
+        buku.penulis,
+        buku.kategori,
+        "Rp " + Number(buku.harga).toLocaleString("id-ID"),
+        buku.stok
+      ];
+
+      for (var i = 0; i < isi.length; i++) {
+        var td = document.createElement("td");
+        td.textContent = isi[i];
+
+        // kolom harga dan stok rata kanan
+        if (i >= 5) { td.className = "angka"; }
+
+        // stok kurang dari 10 diberi warna merah
+        if (i === 6 && Number(buku.stok) < 10) {
+          td.className = "angka stok-rendah";
+        }
+        tr.appendChild(td);
+      }
+      return tr;
+    }
+
+    // ===== TAMPILKAN DATA DARI data.js (dataKatalogBuku) =====
+    function tampilkanData() {
+      tbody.innerHTML = "";
+      for (var i = 0; i < dataKatalogBuku.length; i++) {
+        tbody.appendChild(buatBaris(dataKatalogBuku[i]));
+      }
+    }
+    tampilkanData();
+
+    // ===== TAMBAH BARIS STOK BARU =====
+    document.getElementById("formTambah").addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      var bukuBaru = {
+        kode: document.getElementById("kode").value.trim(),
+        judul: document.getElementById("judul").value.trim(),
+        penulis: document.getElementById("penulis").value.trim(),
+        kategori: document.getElementById("kategori").value.trim(),
+        harga: document.getElementById("harga").value,
+        stok: document.getElementById("stok").value
+      };
+
+      // cek kode buku tidak boleh kembar
+      for (var i = 0; i < dataKatalogBuku.length; i++) {
+        if (dataKatalogBuku[i].kode.toLowerCase() === bukuBaru.kode.toLowerCase()) {
+          alert("Kode buku sudah ada, gunakan kode lain.");
+          return;
+        }
+      }
+
+      dataKatalogBuku.push(bukuBaru);              // simpan ke array
+      tbody.appendChild(buatBaris(bukuBaru));      // tambah baris lewat DOM
+
+      this.reset();
+      alert("Stok buku baru berhasil ditambahkan.");
+    });
+  </script>
+
+</body>
+</html>
