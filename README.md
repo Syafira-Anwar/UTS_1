@@ -60,11 +60,13 @@ Screenshoot dan penjelasanya
 
 validasi logiin jika berhasil atau tidak nya maka akan muncul note di atas <img width="659" height="739" alt="image" src="https://github.com/user-attachments/assets/6f0e010f-4582-4ab5-8aae-04a41a28a2ef" />
 
-<img width="1921" height="1031" alt="image" src="https://github.com/user-attachments/assets/6c4ac33e-19be-4cff-aeab-bdab7abfd25c" />
+tampilan dashboard 
+<img width="1916" height="894" alt="image" src="https://github.com/user-attachments/assets/93934999-9531-4e2b-88d6-77b9bcb9f135" />
 
-<img width="1920" height="977" alt="image" src="https://github.com/user-attachments/assets/b98511f7-7154-4bba-ae7b-0fe8cd9cd2e7" />
+tampilan stok <img width="1806" height="879" alt="image" src="https://github.com/user-attachments/assets/8d790a4d-4d39-4cf2-ad84-ab21670b3587" />
 
-<img width="1916" height="982" alt="image" src="https://github.com/user-attachments/assets/eada15e8-21cf-4d05-8772-85d05aa52395" />
+tampilan checkout <img width="1646" height="912" alt="image" src="https://github.com/user-attachments/assets/7da9b64e-df40-4fd7-8c24-6cb3ff1b205c" />
+<img width="1520" height="885" alt="image" src="https://github.com/user-attachments/assets/554dfd00-68e5-48fe-8149-3c38614277ce" />
 
-<img width="1921" height="979" alt="image" src="https://github.com/user-attachments/assets/2ab46718-42c2-4ad8-a6e4-e0b4491c91b8" />
+tampilan tracking <img width="1900" height="499" alt="image" src="https://github.com/user-attachments/assets/658b059d-433a-41d1-a668-d4b26b71834a" />
 
