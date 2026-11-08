@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Toko Buku Nara - Pemesanan</title>
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: #fffbe8;
+      min-height: 100vh;
+    }
+
+    .navbar {
+      background: #78350f;
+      color: #fff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 32px;
+    }
+    .navbar h1 { font-family: Georgia, serif; font-size: 24px; }
+    .navbar a {
+      color: #78350f;
+      background: #fff;
+      text-decoration: none;
+      padding: 8px 18px;
+      border-radius: 6px;
+      font-weight: 700;
+      font-size: 14px;
+    }
+    .navbar a:hover { background: #fde68a; }
+
+    .container { max-width: 1000px; margin: 0 auto; padding: 32px 20px; }
+
+    h2 { font-family: Georgia, serif; color: #78350f; margin-bottom: 6px; }
+    .desc { color: #b45309; font-size: 15px; margin-bottom: 24px; }
+
+    .box {
+      background: #fff;
+      border-radius: 14px;
+      padding: 24px;
+      box-shadow: 0 6px 20px rgba(120, 53, 15, 0.1);
+      margin-bottom: 24px;
+    }
+    .box h3 { color: #78350f; margin-bottom: 16px; }
+
+    label { display: block; font-weight: 600; font-size: 13px; margin-bottom: 6px; color: #1f2937; }
+    input, select, textarea {
+      width: 100%;
+      padding: 11px 12px;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      font-size: 14px;
+      font-family: inherit;
+      background: #fff;
+    }
+    textarea { resize: vertical; min-height: 80px; }
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: #b45309;
+      box-shadow: 0 0 0 3px rgba(180, 83, 9, 0.15);
+    }
+
+    .form-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+    .full { grid-column: 1 / -1; }
+
+    .tambah-row { display: grid; grid-template-columns: 1fr 120px auto; gap: 14px; align-items: end; }
+
+    .btn {
+      padding: 11px 22px;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .btn-utama { background: #78350f; color: #fff; }
+    .btn-utama:hover { background: #5c2a0c; }
+    .btn-hapus { background: #fee2e2; color: #b91c1c; padding: 7px 14px; }
+    .btn-hapus:hover { background: #fecaca; }
+    .btn-besar { width: 100%; padding: 15px; font-size: 17px; margin-top: 8px; }
+
+    /* ===== TABEL PESANAN ===== */
+    .table-wrap { overflow-x: auto; margin-top: 20px; }
+    table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    th, td { padding: 11px 12px; text-align: left; border-bottom: 1px solid #f3e8d0; }
+    th { background: #78350f; color: #fff; white-space: nowrap; }
+    .angka { text-align: right; }
+    td input.qty { width: 80px; padding: 7px 8px; }
+    .kosong { text-align: center; color: #9ca3af; padding: 24px; }
+
+    /* ===== RINGKASAN ===== */
+    .ringkasan { margin-top: 18px; margin-left: auto; max-width: 320px; }
+    .ringkasan div {
+      display: flex;
+      justify-content: space-between;
+      padding: 6px 0;
+      font-size: 15px;
+      color: #374151;
+    }
+    .ringkasan .total {
+      border-top: 2px solid #78350f;
+      margin-top: 6px;
+      padding-top: 10px;
+      font-size: 19px;
+      font-weight: 700;
+      color: #78350f;
+    }
+
+    @media (max-width: 700px) {
+      .form-grid, .tambah-row { grid-template-columns: 1fr; }
+      .navbar { padding: 14px 16px; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="navbar">
+    <h1>Toko Buku Nara</h1>
+    <a href="dashboard.html">&larr; Kembali ke Dashboard</a>
+  </div>
+
+  <div class="container">
+    <h2>Halaman Pemesanan</h2>
+    <p class="desc">Pilih buku, lengkapi data pemesan, lalu pilih metode pembayaran.</p>
+
+    <!-- ===== DATA PEMESANAN (TAMBAH / UBAH) ===== -->
+    <div class="box">
+      <h3>1. Data Pemesanan</h3>
+
+      <div class="tambah-row">
+        <div>
+          <label for="pilihBuku">Pilih Buku</label>
+          <select id="pilihBuku"></select>
+        </div>
+        <div>
+          <label for="jumlah">Jumlah</label>
+          <input type="number" id="jumlah" value="1" min="1">
+        </div>
+        <button type="button" class="btn btn-utama" id="btnTambah">+ Tambah</button>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>No</th>
+              <th>Judul Buku</th>
+              <th class="angka">Harga</th>
+              <th>Jumlah (bisa diubah)</th>
+              <th class="angka">Subtotal</th>
+              <th>Aksi</th>
+            </tr>
+          </thead>
+          <tbody id="tabelPesanan"></tbody>
+        </table>
+      </div>
+
+      <div class="ringkasan">
+        <div><span>Subtotal</span><span id="txtSubtotal">Rp 0</span></div>
+        <div><span>Ongkos Kirim</span><span id="txtOngkir">Rp 0</span></div>
+        <div class="total"><span>Total Bayar</span><span id="txtTotal">Rp 0</span></div>
+      </div>
+    </div>
+
+    <form id="formCheckout">
+
+      <!-- ===== DATA PEMESAN ===== -->
+      <div class="box">
+        <h3>2. Informasi Pemesan</h3>
+        <div class="form-grid">
+          <div>
+            <label for="nama">Nama Lengkap</label>
+            <input type="text" id="nama" placeholder="Nama pemesan" required>
+          </div>
+          <div>
+            <label for="hp">No. HP / WhatsApp</label>
+            <input type="tel" id="hp" placeholder="contoh: 081234567890" required>
+          </div>
+          <div class="full">
+            <label for="email">Email</label>
+            <input type="email" id="email" placeholder="nama@email.com" required>
+          </div>
+          <div class="full">
+            <label for="alamat">Alamat Pengiriman</label>
+            <textarea id="alamat" placeholder="Alamat lengkap" required></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== PEMBAYARAN ===== -->
+      <div class="box">
+        <h3>3. Pembayaran</h3>
+        <div class="form-grid">
+          <div>
+            <label for="metode">Metode Pembayaran</label>
+            <select id="metode" required>
+              <option value="">-- Pilih metode --</option>
+              <option>Transfer Bank</option>
+              <option>E-Wallet (OVO/GoPay/DANA)</option>
+              <option>COD (Bayar di Tempat)</option>
+              <option>Kartu Kredit/Debit</option>
+            </select>
+          </div>
+          <div>
+            <label for="catatan">Catatan (opsional)</label>
+            <input type="text" id="catatan" placeholder="contoh: tolong dibungkus kado">
+          </div>
+        </div>
+        <button type="submit" class="btn btn-utama btn-besar">Buat Pesanan</button>
+      </div>
+
+    </form>
+  </div>
+
+  <!-- data.js harus berada di folder yang sama dengan checkout.html -->
+  <script src="data.js"></script>
+  <script>
+    var ONGKIR = 15000;
+    var pesanan = [];   // isi: { kode, judul, harga, jumlah }
+
+    function rupiah(angka) {
+      return "Rp " + Number(angka).toLocaleString("id-ID");
+    }
+
+    function cariBuku(kode) {
+      for (var i = 0; i < dataKatalogBuku.length; i++) {
+        if (dataKatalogBuku[i].kode === kode) { return dataKatalogBuku[i]; }
+      }
+      return null;
+    }
+
+    // ===== ISI PILIHAN BUKU DARI data.js =====
+    var selectBuku = document.getElementById("pilihBuku");
+    for (var i = 0; i < dataKatalogBuku.length; i++) {
+      var b = dataKatalogBuku[i];
+      var opt = document.createElement("option");
+      opt.value = b.kode;
+      opt.textContent = b.judul + " - " + rupiah(b.harga) + " (stok: " + b.stok + ")";
+      selectBuku.appendChild(opt);
+    }
+
+    // ===== TAMPILKAN TABEL PESANAN =====
+    function tampilkanPesanan() {
+      var tbody = document.getElementById("tabelPesanan");
+      tbody.innerHTML = "";
+
+      if (pesanan.length === 0) {
+        var trKosong = document.createElement("tr");
+        var tdKosong = document.createElement("td");
+        tdKosong.colSpan = 6;
+        tdKosong.className = "kosong";
+        tdKosong.textContent = "Belum ada buku dalam pesanan.";
+        trKosong.appendChild(tdKosong);
+        tbody.appendChild(trKosong);
+      }
+
+      var subtotal = 0;
+
+      for (var i = 0; i < pesanan.length; i++) {
+        var item = pesanan[i];
+        var sub = item.harga * item.jumlah;
+        subtotal += sub;
+
+        var tr = document.createElement("tr");
+
+        var tdNo = document.createElement("td");
+        tdNo.textContent = i + 1;
+
+        var tdJudul = document.createElement("td");
+        tdJudul.textContent = item.judul;
+
+        var tdHarga = document.createElement("td");
+        tdHarga.className = "angka";
+        tdHarga.textContent = rupiah(item.harga);
+
+        // kolom jumlah berupa input supaya bisa diubah
+        var tdQty = document.createElement("td");
+        var inputQty = document.createElement("input");
+        inputQty.type = "number";
+        inputQty.className = "qty";
+        inputQty.min = 1;
+        inputQty.value = item.jumlah;
+        inputQty.setAttribute("data-index", i);
+        inputQty.addEventListener("change", ubahJumlah);
+        tdQty.appendChild(inputQty);
+
+        var tdSub = document.createElement("td");
+        tdSub.className = "angka";
+        tdSub.textContent = rupiah(sub);
+
+        var tdAksi = document.createElement("td");
+        var btnHapus = document.createElement("button");
+        btnHapus.type = "button";
+        btnHapus.className = "btn btn-hapus";
+        btnHapus.textContent = "Hapus";
+        btnHapus.setAttribute("data-index", i);
+        btnHapus.addEventListener("click", hapusItem);
+        tdAksi.appendChild(btnHapus);
+
+        tr.appendChild(tdNo);
+        tr.appendChild(tdJudul);
+        tr.appendChild(tdHarga);
+        tr.appendChild(tdQty);
+        tr.appendChild(tdSub);
+        tr.appendChild(tdAksi);
+        tbody.appendChild(tr);
+      }
+
+      var ongkir = pesanan.length > 0 ? ONGKIR : 0;
+      document.getElementById("txtSubtotal").textContent = rupiah(subtotal);
+      document.getElementById("txtOngkir").textContent = rupiah(ongkir);
+      document.getElementById("txtTotal").textContent = rupiah(subtotal + ongkir);
+    }
+
+    // ===== TAMBAH BUKU KE PESANAN =====
+    document.getElementById("btnTambah").addEventListener("click", function () {
+      var kode = selectBuku.value;
+      var jumlah = parseInt(document.getElementById("jumlah").value, 10);
+      var buku = cariBuku(kode);
+
+      if (!buku || isNaN(jumlah) || jumlah < 1) {
+        alert("Pilih buku dan isi jumlah minimal 1.");
+        return;
+      }
+
+      // kalau buku sudah ada di pesanan, jumlahnya ditambah
+      var sudahAda = null;
+      for (var i = 0; i < pesanan.length; i++) {
+        if (pesanan[i].kode === kode) { sudahAda = pesanan[i]; }
+      }
+
+      var totalJumlah = jumlah + (sudahAda ? sudahAda.jumlah : 0);
+      if (totalJumlah > buku.stok) {
+        alert("Stok tidak cukup. Stok \"" + buku.judul + "\" tersisa " + buku.stok + ".");
+        return;
+      }
+
+      if (sudahAda) {
+        sudahAda.jumlah = totalJumlah;
+      } else {
+        pesanan.push({ kode: buku.kode, judul: buku.judul, harga: buku.harga, jumlah: jumlah });
+      }
+
+      document.getElementById("jumlah").value = 1;
+      tampilkanPesanan();
+    });
+
+    // ===== UBAH JUMLAH =====
+    function ubahJumlah() {
+      var index = this.getAttribute("data-index");
+      var jumlahBaru = parseInt(this.value, 10);
+      var buku = cariBuku(pesanan[index].kode);
+
+      if (isNaN(jumlahBaru) || jumlahBaru < 1) {
+        alert("Jumlah minimal 1. Gunakan tombol Hapus untuk menghapus buku.");
+      } else if (jumlahBaru > buku.stok) {
+        alert("Stok tidak cukup. Stok tersisa " + buku.stok + ".");
+      } else {
+        pesanan[index].jumlah = jumlahBaru;
+      }
+      tampilkanPesanan();
+    }
+
+    // ===== HAPUS ITEM =====
+    function hapusItem() {
+      var index = this.getAttribute("data-index");
+      pesanan.splice(index, 1);
+      tampilkanPesanan();
+    }
+
+    // ===== BUAT PESANAN =====
+    document.getElementById("formCheckout").addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      if (pesanan.length === 0) {
+        alert("Pesanan masih kosong. Tambahkan buku terlebih dahulu.");
+        return;
+      }
+
+      var subtotal = 0;
+      for (var i = 0; i < pesanan.length; i++) {
+        subtotal += pesanan[i].harga * pesanan[i].jumlah;
+      }
+
+      var sekarang = new Date();
+      var dataPesanan = [];
+      try {
+        dataPesanan = JSON.parse(localStorage.getItem("dataPesanan")) || [];
+      } catch (err) {}
+
+      var pesananBaru = {
+        id: "ORD" + String(dataPesanan.length + 1).padStart(3, "0"),
+        tanggal: sekarang.toLocaleDateString("id-ID") + " " + sekarang.toLocaleTimeString("id-ID"),
+        pemesan: {
+          nama: document.getElementById("nama").value.trim(),
+          hp: document.getElementById("hp").value.trim(),
+          email: document.getElementById("email").value.trim(),
+          alamat: document.getElementById("alamat").value.trim()
+        },
+        items: pesanan,
+        metode: document.getElementById("metode").value,
+        catatan: document.getElementById("catatan").value.trim(),
+        ongkir: ONGKIR,
+        total: subtotal + ONGKIR,
+        status: "Diproses"
+      };
+
+      dataPesanan.push(pesananBaru);
+      localStorage.setItem("dataPesanan", JSON.stringify(dataPesanan));
+
+      alert("Pesanan berhasil dibuat!\nID Pesanan: " + pesananBaru.id +
+            "\nTotal bayar: " + rupiah(pesananBaru.total));
+
+      pesanan = [];
+      this.reset();
+      tampilkanPesanan();
+    });
+
+    tampilkanPesanan();
+  </script>
+
+</body>
+</html>
