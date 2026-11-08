@@ -1,0 +1,51 @@
+// Data dummy user valid untuk login
+const validUsers = [
+  {
+    email: "user@nara.com",
+    password: "password123"
+  },
+  {
+    email: "admin@nara.com",
+    password: "admin123"
+  }
+];
+
+// Data dummy katalog buku untuk stok.html
+const dataKatalogBuku = [
+  {
+    id: 1,
+    kode: "BK-001",
+    judul: "Laskar Pelangi",
+    penulis: "Andrea Hirata",
+    kategori: "Novel",
+    harga: 85000,
+    stok: 15
+  },
+  {
+    id: 2,
+    kode: "BK-002",
+    judul: "Bumi Manusia",
+    penulis: "Pramoedya Ananta Toer",
+    kategori: "Sejarah / Sastra",
+    harga: 95000,
+    stok: 8
+  },
+  {
+    id: 3,
+    kode: "BK-003",
+    judul: "Filosofi Teras",
+    penulis: "Henry Manampiring",
+    kategori: "Pengembangan Diri",
+    harga: 98000,
+    stok: 20
+  },
+  {
+    id: 4,
+    kode: "BK-004",
+    judul: "Atomic Habits",
+    penulis: "James Clear",
+    kategori: "Produktivitas",
+    harga: 125000,
+    stok: 12
+  }
+];
