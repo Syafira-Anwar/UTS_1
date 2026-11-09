@@ -15,7 +15,7 @@ const dataKatalogBuku = [
   {
     id: 1,
     kode: "BK-001",
-    judul: "Laskar Pelangi",
+    judul: "Harry potter",
     penulis: "Andrea Hirata",
     kategori: "Novel",
     harga: 85000,
@@ -40,12 +40,11 @@ const dataKatalogBuku = [
     stok: 20
   },
   {
-    id: 4,
-    kode: "BK-004",
-    judul: "Atomic Habits",
-    penulis: "James Clear",
-    kategori: "Produktivitas",
-    harga: 125000,
-    stok: 12
-  }
+   const dataPengiriman = [
+  { nomorDO: "DO-001", namaPemesan: "Nara", status: 4, ekspedisi: "JNE",
+    tanggalKirim: "2026-11-01", jenisPaket: "Reguler", totalPembayaran: 215000 },
+  { nomorDO: "DO-002", namaPemesan: "Budi", status: 2, ekspedisi: "J&T",
+    tanggalKirim: "2026-11-05", jenisPaket: "Express", totalPembayaran: 140000 },
+  { nomorDO: "DO-003", namaPemesan: "Sinta", status: 0, ekspedisi: "SiCepat",
+    tanggalKirim: "2026-11-08", jenisPaket: "Reguler", totalPembayaran: 98000 }
 ];
