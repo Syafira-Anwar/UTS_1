@@ -16,7 +16,6 @@ const dataKatalogBuku = [
     id: 1,
     kode: "BK-001",
     judul: "Harry potter",
-    penulis: "Andrea Hirata",
     kategori: "Novel",
     harga: 85000,
     stok: 15
@@ -24,20 +23,11 @@ const dataKatalogBuku = [
   {
     id: 2,
     kode: "BK-002",
-    judul: "Bumi Manusia",
-    penulis: "Pramoedya Ananta Toer",
-    kategori: "Sejarah / Sastra",
+    judul: "why don we?",
     harga: 95000,
     stok: 8
   },
-  {
-    id: 3,
-    kode: "BK-003",
-    judul: "Filosofi Teras",
-    penulis: "Henry Manampiring",
-    kategori: "Pengembangan Diri",
-    harga: 98000,
-    stok: 20
+
   },
   {
    const dataPengiriman = [
