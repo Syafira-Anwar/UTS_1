@@ -18,13 +18,14 @@ Saat ini halaman yang tersedia adalah **Halaman Login** (`login.html`).
 
 ```
 tugas-uts-web1/
-├── login.html
-├── README.md
-├── css/
-│   └── style.css      # tampilan halaman dan modal
-└── js/
-    ├── data.js        # data pengguna (array users)
-    └── script.js      # logika login, modal, lupa password, daftar
+├── index.html        ← redirect/halaman login
+├── login.html        ← rename dari login.html1.html
+├── dashboard.html, stok.html, checkout.html, tracking.html
+├── css/style.css     ← pindahkan semua <style> ke sini
+├── js/data.js        ← rename dari "data", tambah dataPengiriman
+├── js/script.js      ← fungsi bersama (rupiah, cek login, logout, modal)
+├── assets/logo.png   ← rename dari logo.jpg.png
+└── img/
 ```
 
 ## Cara Menjalankan
